@@ -17,10 +17,16 @@ app.post('/webhook', line.middleware(config), (req, res) => {
 const client = new line.Client(config);
 function handleEvent(event) {
   console.log(event);
-  return client.replyMessage(event.replyToken,{
-    type:'text',
+  if(event.type == 'message'){
+    return client.broadcast({
+        type:'text',
     text:event.message.text
-  })
+    })
+  }
+  // return client.replyMessage(event.replyToken,{
+  //   type:'text',
+  //   text:event.message.text
+  // })
 }
 
 app.listen(process.env.Port || 3000,()=>{
